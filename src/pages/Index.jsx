@@ -4,24 +4,60 @@ import { FaPlus, FaTrash, FaEdit, FaSave } from "react-icons/fa";
 const Index = () => {
   const toast = useToast();
 
-  const handleSavePrompt = () => {
-    toast({
-      title: "Prompt saved.",
-      description: "Your AI prompt has been successfully saved.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
+  const handleSavePrompt = async () => {
+    const response = await fetch("https://your-backend-url.com/prompts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: "Sample Title",
+        category: "Sample Category",
+        content: "Sample Prompt",
+      }),
     });
+
+    if (response.ok) {
+      toast({
+        title: "Prompt saved.",
+        description: "Your AI prompt has been successfully saved.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to save the prompt.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
-  const handleDeletePrompt = () => {
-    toast({
-      title: "Prompt deleted.",
-      description: "The AI prompt has been successfully deleted.",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
+  const handleDeletePrompt = async () => {
+    const response = await fetch("https://your-backend-url.com/prompts/{id}", {
+      method: "DELETE",
     });
+
+    if (response.ok) {
+      toast({
+        title: "Prompt deleted.",
+        description: "The AI prompt has been successfully deleted.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to delete the prompt.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
